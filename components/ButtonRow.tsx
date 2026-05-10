@@ -119,11 +119,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     backgroundColor: '#ffffff',
     borderColor: '#ffffff',
-    shadowColor: '#ffffff',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.25,
-    shadowRadius: 24,
-    elevation: 8,
+    elevation: 0,
   },
 });
 

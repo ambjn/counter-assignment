@@ -7,6 +7,9 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { ButtonRow } from '../components/ButtonRow';
 import { CounterDisplay } from '../components/CounterDisplay';
 import { useCounter } from '../hooks/useCounter';
+import CounterNative from '../modules/counter/src/CounterModule';
+
+const isNative = CounterNative !== null;
 
 const CounterScreen = () => {
   const {
@@ -36,6 +39,12 @@ const CounterScreen = () => {
         <Text style={styles.title}>
           COUNTER
         </Text>
+        <View style={[styles.modeBadge, isNative ? styles.modeBadgeNative : styles.modeBadgeJs]}>
+          <View style={[styles.modeDot, isNative ? styles.modeDotNative : styles.modeDotJs]} />
+          <Text style={[styles.modeText, isNative ? styles.modeTextNative : styles.modeTextJs]}>
+            {isNative ? 'NATIVE' : 'JS'}
+          </Text>
+        </View>
 
         <Animated.View entering={FadeIn.delay(200).duration(800)}>
           <CounterDisplay
@@ -141,6 +150,47 @@ const styles = StyleSheet.create({
     color: '#525252',
     letterSpacing: 4,
     marginBottom: 40,
+  },
+  modeBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 20,
+    borderWidth: 1,
+    marginTop: -24,
+    marginBottom: 40,
+  },
+  modeBadgeNative: {
+    backgroundColor: 'rgba(34,197,94,0.08)',
+    borderColor: 'rgba(34,197,94,0.2)',
+  },
+  modeBadgeJs: {
+    backgroundColor: 'rgba(249,115,22,0.08)',
+    borderColor: 'rgba(249,115,22,0.2)',
+  },
+  modeDot: {
+    width: 5,
+    height: 5,
+    borderRadius: 3,
+  },
+  modeDotNative: {
+    backgroundColor: '#22c55e',
+  },
+  modeDotJs: {
+    backgroundColor: '#f97316',
+  },
+  modeText: {
+    fontSize: 10,
+    fontWeight: '600',
+    letterSpacing: 1.5,
+  },
+  modeTextNative: {
+    color: '#22c55e',
+  },
+  modeTextJs: {
+    color: '#f97316',
   },
   historyTriggerWrapper: {
     alignItems: 'center',

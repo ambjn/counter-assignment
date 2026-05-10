@@ -40,9 +40,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontVariant: ['tabular-nums'],
     lineHeight: 140,
-    textShadowColor: 'rgba(255, 255, 255, 0.4)',
-    textShadowOffset: { width: 0, height: 4 },
-    textShadowRadius: 20,
   },
   dotsRow: {
     flexDirection: 'row',
