@@ -1,0 +1,9 @@
+{
+  "platforms": ["apple", "android", "web"],
+  "apple": {
+    "modules": ["CounterModule"]
+  },
+  "android": {
+    "modules": ["expo.modules.counter.CounterModule"]
+  }
+}
