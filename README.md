@@ -5,12 +5,14 @@ A React Native counter with non-trivial behavior, built with Expo and TypeScript
 ## Running the app
 
 **JS-only (Expo Go):**
+
 ```bash
 bun install
 bunx expo start
 ```
 
-**With native module (requires Xcode):**
+**With Native Counter module:**
+
 ```bash
 bunx expo run:ios
 ```
@@ -50,15 +52,19 @@ No global store — counter state is local to a single screen and does not need 
 ## Counter behaviors
 
 ### Every 5th increment adds 5
+
 A ref tracks how many times increment has been called. On the 5th call (`callCount % 5 === 0`), delta is 5 instead of 1. All `setCount` calls use the functional form `c => c + delta` so they always operate on the latest value, safe under rapid taps. The C++ path mirrors this with a plain `callCount_` member in `CounterStore` (touched only from the JS thread via JSI, so no lock needed).
 
 ### Decrement floor at 0
+
 `Math.max(0, c - 1)` in the JS decrement and auto-decrement interval. The C++ path uses `compare_exchange_weak` in a CAS loop for the same guarantee without a mutex on the hot path.
 
 ### Auto-decrement after inactivity
+
 After 3 seconds without interaction, the counter decrements every 1 second. In the JS path this is a `setTimeout` → `setInterval` chain inside a `useEffect` keyed on `lastInteractionAt` — any interaction updates that state, the effect cleanup cancels the timers, and a fresh 3-second window starts. In the C++ path the idle loop runs on a detached background thread; `stopIdleTimer()` sets an atomic flag and increments a generation counter the thread checks before each decrement.
 
 ### Animated reset
+
 Reset steps the counter down by 1 every 50 ms rather than jumping to 0 instantly. The JS path uses `setInterval` (cleared and restarted if reset is pressed mid-animation). The C++ path spawns a detached thread with `sleep_for(50ms)` between decrements.
 
 ---
@@ -66,9 +72,11 @@ Reset steps the counter down by 1 every 50 ms rather than jumping to 0 instantly
 ## Features
 
 ### Value history
+
 Every time `count` changes, the previous value is prepended to a capped array (max 10 entries) via `useEffect`. A bottom-sheet modal shows the list with an option to clear it.
 
 ### Long-press for fast increment
+
 `onLongPress` on the increment button starts a `setInterval(increment, 100)` — 10 taps per second. `onPressOut` clears the interval. `Pressable` handles both callbacks natively, no third-party gesture library needed.
 
 ---
