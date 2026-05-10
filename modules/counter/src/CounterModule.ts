@@ -1,12 +1,26 @@
-import { NativeModule, requireNativeModule } from 'expo';
+import { requireOptionalNativeModule } from 'expo-modules-core';
+import type { CounterChangeEvent } from './Counter.types';
 
-import { CounterModuleEvents } from './Counter.types';
+type CounterEventsMap = {
+  onValueChanged: (event: CounterChangeEvent) => void;
+};
 
-declare class CounterModule extends NativeModule<CounterModuleEvents> {
-  PI: number;
-  hello(): string;
-  setValueAsync(value: string): Promise<void>;
+type CounterModuleType = {
+  getValue(): number;
+  increment(): void;
+  decrement(): void;
+  reset(): void;
+};
+
+const CounterNative = requireOptionalNativeModule<CounterModuleType>('Counter');
+
+export function subscribe(listener: (value: number) => void) {
+  if (!CounterNative) return { remove: () => { } };
+  // In Expo SDK 52+, the native module is itself an EventEmitter.
+  return (CounterNative as any).addListener(
+    'onValueChanged',
+    (event: CounterChangeEvent) => listener(event.value),
+  );
 }
 
-// This call loads the native module object from the JSI.
-export default requireNativeModule<CounterModule>('Counter');
+export default CounterNative;
