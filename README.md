@@ -2,6 +2,12 @@
 
 A React Native counter with non-trivial behavior, built with Expo and TypeScript. Includes a full C++ native module implementation as an advanced path.
 
+## Screenshots
+
+| Native module (`bunx expo run:ios`) | JS fallback (Expo Go) |
+|:---:|:---:|
+| ![Native](screenshots/1.png) | ![JS](screenshots/2.png) |
+
 ## Running the app
 
 **JS-only (Expo Go):**
