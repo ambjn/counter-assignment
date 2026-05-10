@@ -3,7 +3,7 @@
 
 typedef void (^CounterChangeBlock)(NSInteger value);
 
-// Pure Obj-C interfaces here so that swift can import this directly, no cpp issue fix
+// Pure Obj-C interface — no C++ includes — so Swift can import this directly.
 @interface CounterBridge : NSObject
 + (instancetype)shared;
 - (NSInteger)getValue;
