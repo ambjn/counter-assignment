@@ -1,10 +1,12 @@
 # Counter App
 
+> Documentation generated with [Claude](https://claude.ai).
+
 A React Native counter with non-trivial behavior, built with Expo and TypeScript. Includes a full C++ native module implementation as an advanced path.
 
 ## Screenshots
 
-| Native module (`bunx expo run:ios`) | JS fallback (Expo Go) |
+| Native module (`bun run ios`) | JS (`bun run start`)  (Expo Go) |
 |:---:|:---:|
 | ![Native](screenshots/1.png) | ![JS](screenshots/2.png) |
 
@@ -14,13 +16,14 @@ A React Native counter with non-trivial behavior, built with Expo and TypeScript
 
 ```bash
 bun install
-bunx expo start
+bun run start
 ```
 
 **With Native Counter module:**
 
 ```bash
-bunx expo run:ios
+bun install
+bun run ios
 ```
 
 ---
